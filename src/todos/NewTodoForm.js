@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import './NewTodoForm.css';
+import React, { useState } from "react";
+import "./NewTodoForm.css";
+import { connect } from "react-redux";
 
 const NewTodoForm = () => {
-    const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
-    return (
-        <div className="new-todo-form">
-            <input
-                className="new-todo-input"
-                type="text"
-                placeholder="Type your new todo here"
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)} />
-            <button className="new-todo-button">Create Todo</button>
-        </div>
-    );
+  return (
+    <div className="new-todo-form">
+      <input
+        className="new-todo-input"
+        type="text"
+        placeholder="Type your new todo here"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
+      <button className="new-todo-button">Create Todo</button>
+    </div>
+  );
 };
 
-export default NewTodoForm;
+// const mapStatetoProps = (state) => ({});
+// const mapDispatchtoProps = (dispatch) => ({});
+
+export default connect()(NewTodoForm);
