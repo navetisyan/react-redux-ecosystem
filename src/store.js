@@ -7,4 +7,4 @@ const reducers = {
 
 const rootReducers = combineReducers(reducers);
 
-export const configureStore = () => createStore();
+export const configureStore = () => createStore(rootReducers);
