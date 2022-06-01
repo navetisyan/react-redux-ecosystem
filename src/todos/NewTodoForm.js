@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./NewTodoForm.css";
 import { connect } from "react-redux";
-import { createTodo } from "./actions";
+// import { createTodo } from "./actions";
+import { addTodoRequest } from "./thunks";
+import { getTodos } from "./selectors";
 
 const NewTodoForm = ({ todos, onCreatePressed }) => {
   const [inputValue, setInputValue] = useState("");
-
+  console.log("NewTodoForm: rendered");
   return (
     <div className="new-todo-form">
       <input
@@ -34,10 +36,10 @@ const NewTodoForm = ({ todos, onCreatePressed }) => {
 };
 
 const mapStatetoProps = (state) => ({
-  todos: state.todos,
+  todos: getTodos(state),
 });
 const mapDispatchtoProps = (dispatch) => ({
-  onCreatePressed: (text) => dispatch(createTodo(text)),
+  onCreatePressed: (text) => dispatch(addTodoRequest(text)),
 });
 
 export default connect(mapStatetoProps, mapDispatchtoProps)(NewTodoForm);

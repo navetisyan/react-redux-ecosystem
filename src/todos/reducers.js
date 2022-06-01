@@ -8,52 +8,56 @@ import {
   LOAD_TODOS_IN_SUCCESS,
 } from "./actions";
 
-export const isLoading = (state = false, action) => {
-  const { type } = action;
+const initialState = { isLoading: false, data: [] };
 
-  switch (type) {
-    case LOAD_TODOS_IN_PROGRESS:
-      return true;
-    case LOAD_TODOS_FAILURE:
-    case LOAD_TODOS_IN_SUCCESS:
-      return false;
-    default:
-      return state;
-  }
-};
-
-export const todos = (state = [], action) => {
+export const todos = (state = initialState, action) => {
+  console.log("todos reducer CALLING...action=", action);
   const { type, payload } = action;
   debugger;
   // eslint-disable-next-line default-case
   switch (type) {
     case CREATE_TODO: {
-      const { text } = payload;
-      const new_todo = {
-        text,
-        isCompleted: false,
+      console.log("type:CREATE_TODO");
+      const { todo } = payload;
+      return {
+        ...state,
+        data: state.data.concat(todo),
       };
-      return state.concat(new_todo);
     }
     case REMOVE_TODO: {
-      const { text } = payload;
-      return state.filter((todo) => todo.text !== text);
+      const { todo: removed_todo } = payload;
+      return {
+        ...state,
+        data: state.data.filter((todo) => todo.id !== removed_todo.id),
+      };
     }
     case MARK_TODO_AS_COMPLETED: {
-      const { text } = payload;
+      const { todo: completed_todo } = payload;
       return state.map((todo) => {
         return {
           ...todo,
-          isCompleted: todo.text === text ? true : todo.isCompleted,
+          isCompleted: todo.id === completed_todo.id ? true : todo.isCompleted,
         };
       });
     }
     case LOAD_TODOS_IN_SUCCESS: {
       const { todos } = payload;
-      return todos;
+      return {
+        ...state,
+        isLoading: false,
+        data: todos,
+      };
     }
     case LOAD_TODOS_IN_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case LOAD_TODOS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state;
   }
